@@ -19,11 +19,21 @@ const HomePage: FC<HomePageProps> = ({ location }) => {
     { id: '3', name: '明', type: 'text', message: '你好，很高兴认识你' },
   ]); // 聊天列表
 
-  console.log(socket);
-
   useEffect(() => {
-    socket.on('message', (msg: any) => {});
+    socket.on('message', (msg: any) => {
+      console.log(msg, chatList);
+      setChatList([...chatList, msg]);
+    });
   }, [socket]);
+
+  const sendMessage = () => {
+    socket.emit('message', {
+      id: random(),
+      name,
+      type: 'text',
+      message: inputValue,
+    });
+  };
 
   return (
     <div className="chatListStyle">
@@ -49,7 +59,7 @@ const HomePage: FC<HomePageProps> = ({ location }) => {
             extra="发送"
             value={inputValue}
             onChange={(e) => setInputValue(e)}
-            // onExtraClick={sendMessage}
+            onExtraClick={sendMessage}
           />
         </List>
       </div>

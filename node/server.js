@@ -8,15 +8,15 @@ const server = http.Server(app);
 const io = socketIo(server);
 
 io.on('connection', function (socket) {
-  console.log(socket);
   socket.on('message', function (data) {
-    // console.log('服务端收到 : ', data);
+    console.log('服务端收到 : ', data);
     socket.send(data);
   });
   socket.on('error', function (err) {
     console.log(err);
   });
 });
+
 server.listen(3000);
 
 app.listen(8080, 'localhost', _ => {
