@@ -7,10 +7,18 @@ const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
 
+let socketSet = new Set();
+
 io.on('connection', function (socket) {
+  socketSet.add(socket);
   socket.on('message', function (data) {
-    console.log('服务端收到 : ', data);
-    socket.send(data);
+    socketSet.forEach(ws => {
+      if (ws.connected) {
+        ws.send(data);
+      } else {
+        socketSet.delete(ws);
+      }
+    })
   });
   socket.on('error', function (err) {
     console.log(err);

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import { List, InputItem } from 'antd-mobile';
 import io from 'socket.io-client';
 import './index.less';
@@ -13,16 +13,19 @@ const HomePage: FC<HomePageProps> = ({ location }) => {
   const { name = '' } = location.query;
   const [inputValue, setInputValue] = useState<string>(''); // 输入框值
   const [socket] = useState<any>(io('http://localhost:3000', { transports: ['websocket'] }));
-  const [chatList, setChatList] = useState<any[]>([
-    { id: '1', name: '明', type: 'text', message: '我叫小明' },
-    { id: '2', name: '红', type: 'text', message: '我叫小红' },
-    { id: '3', name: '明', type: 'text', message: '你好，很高兴认识你' },
-  ]); // 聊天列表
+  const [chatList, setChatList] = useState<any[]>([]); // 聊天列表
+
+  const chatListRef = useRef<any[]>([]);
+
+  useEffect(() => {
+    chatListRef.current = chatList;
+    setChatList(chatList);
+  }, [chatList]);
 
   useEffect(() => {
     socket.on('message', (msg: any) => {
-      console.log(msg, chatList);
-      setChatList([...chatList, msg]);
+      setChatList([...chatListRef.current, msg]);
+      chatListRef.current = [...chatListRef.current, msg];
     });
   }, [socket]);
 
@@ -33,6 +36,7 @@ const HomePage: FC<HomePageProps> = ({ location }) => {
       type: 'text',
       message: inputValue,
     });
+    setInputValue('');
   };
 
   return (
