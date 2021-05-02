@@ -1,3 +1,44 @@
-.center {
-  font-size: 26px;
+.chatListStyle {
+
+  position: relative;
+
+  .chat {
+    padding: 0 20px;
+
+    .item {
+      display: flex;
+      padding: 32px 0;
+      width: 100%;
+
+      .name {
+        background-color: #108ee9;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      .messageContent {
+        padding: 0 20px;
+        max-width: 80%;
+
+        .message {
+          background-color: #fff1f0;
+          border-radius: 20px;
+          display: block;
+          padding: 24px;
+        }
+      }
+    }
+  }
+
+  .inputStyle {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }

@@ -1,4 +1,12 @@
 import { ResponseError, Context } from 'umi-request';
+import {
+  NavBarProps,
+  TitleListItem,
+  NavBarListItem,
+  TabBarProps,
+  TabBarListItem,
+  history,
+} from 'alita';
 
 // 请求中间件 就是发起请求和响应之后需要统一操作数据就写这
 // https://github.com/umijs/umi-request#example-1
@@ -15,4 +23,44 @@ export const request = {
     // 集中处理错误
     console.log(error);
   },
+};
+
+const titleList: TitleListItem[] = [
+  {
+    pagePath: '/',
+    title: '聊天室',
+  },
+];
+
+const navList: NavBarListItem[] = [
+  {
+    pagePath: '/',
+    navBar: {},
+  },
+];
+
+const navBar: NavBarProps = {
+  mode: 'dark',
+  navList,
+  fixed: true,
+  onLeftClick: () => {
+    history.goBack();
+  },
+};
+
+const tabList: TabBarListItem[] = [];
+
+const tabBar: TabBarProps = {
+  color: `#696D6C`,
+  selectedColor: '#3562AD',
+  borderStyle: 'white',
+  position: 'bottom',
+  list: tabList,
+};
+
+export const mobileLayout = {
+  documentTitle: '默认标题',
+  navBar,
+  tabBar,
+  titleList,
 };
